@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.shehuan.easymvp.App;
+import com.shehuan.easymvp.mvp.net.exceptions.ResponseException;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -36,23 +37,18 @@ public abstract class CommonObserver<E> implements Observer<E> {
 
     @Override
     public void onError(Throwable e) {
-        String code;
-        String message;
-        if (e instanceof ApiException) {
-            code = e.getMessage().split("#")[0];
-            message = e.getMessage().split("#")[1];
-        } else {
-            code = "-1";
-            message = "请检查网络连接或稍后再试！";
-        }
-
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-        _onError(code);
+        ResponseException responseException = (ResponseException) e;
+        Toast.makeText(mContext, responseException.message, Toast.LENGTH_SHORT).show();
+        _onError(responseException.code);
     }
 
     @Override
     public void onComplete() {
 
+    }
+
+    public Disposable getDisposable() {
+        return disposable;
     }
 
     protected abstract void _onNext(E t);
