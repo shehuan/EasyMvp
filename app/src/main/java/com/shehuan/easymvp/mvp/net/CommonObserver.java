@@ -32,14 +32,14 @@ public abstract class CommonObserver<E> implements Observer<E> {
 
     @Override
     public void onNext(E data) {
-        _onNext(data);
+        onSuccess(data);
     }
 
     @Override
     public void onError(Throwable e) {
         ResponseException responseException = (ResponseException) e;
-        Toast.makeText(mContext, responseException.message, Toast.LENGTH_SHORT).show();
-        _onError(responseException.code);
+        Toast.makeText(mContext, responseException.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        onError(responseException);
     }
 
     @Override
@@ -51,7 +51,7 @@ public abstract class CommonObserver<E> implements Observer<E> {
         return disposable;
     }
 
-    protected abstract void _onNext(E t);
+    protected abstract void onSuccess(E data);
 
-    protected abstract void _onError(String code);
+    protected abstract void onError(ResponseException exception);
 }

@@ -2,22 +2,22 @@ package com.shehuan.easymvp.mvp.net.exceptions;
 
 
 /**
- * 自定义的异常类，
+ * 自定义的接口异常类，
  */
 public class ApiException extends RuntimeException {
 
-    private String code;
+    private String errorCode;
 
-    public ApiException(String code, String message) {
-        super(message);
-        this.code = code;
+    public ApiException(String errorCode, String errorMessage) {
+        super(errorMessage);
+        this.errorCode = errorCode;
     }
 
-    public String getCode() {
-        return code;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 }

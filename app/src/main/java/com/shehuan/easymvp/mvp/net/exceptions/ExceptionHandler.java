@@ -25,13 +25,11 @@ public class ExceptionHandler {
     public static ResponseException handle(Throwable e) {
         ResponseException responseException;
         if (e instanceof ApiException) {
-            ApiException resultException = (ApiException) e;
-            responseException = new ResponseException(resultException, Integer.valueOf(resultException.getCode()));
-            responseException.message = resultException.getMessage();
+            ApiException apiException = (ApiException) e;
+            responseException = new ResponseException(apiException, Integer.valueOf(apiException.getErrorCode()), apiException.getMessage());
             responseException.getMessage();
         } else if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
-            responseException = new ResponseException(e, ERROR.HTTP_ERROR);
             switch (httpException.code()) {
                 case UNAUTHORIZED:
                 case FORBIDDEN:
@@ -42,26 +40,21 @@ public class ExceptionHandler {
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
                 default:
-                    responseException.message = "网络连接错误";
+                    responseException = new ResponseException(e, httpException.code(), "网络连接错误");
                     break;
             }
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
-            responseException = new ResponseException(e, ERROR.PARSE_ERROR);
-            responseException.message = "解析错误";
+            responseException = new ResponseException(e, ERROR.PARSE_ERROR, "解析错误");
         } else if (e instanceof ConnectException) {
-            responseException = new ResponseException(e, ERROR.NETWORD_ERROR);
-            responseException.message = "连接失败";
+            responseException = new ResponseException(e, ERROR.NET_ERROR, "连接失败");
         } else if (e instanceof ConnectTimeoutException || e instanceof java.net.SocketTimeoutException) {
-            responseException = new ResponseException(e, ERROR.TIMEOUT_ERROR);
-            responseException.message = "连接超时";
+            responseException = new ResponseException(e, ERROR.TIMEOUT_ERROR, "网络连接超时");
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
-            responseException = new ResponseException(e, ERROR.SSL_ERROR);
-            responseException.message = "证书验证失败";
+            responseException = new ResponseException(e, ERROR.SSL_ERROR, "证书验证失败");
         } else {
-            responseException = new ResponseException(e, ERROR.UNKNOWN_ERROR);
-            responseException.message = "未知错误";
+            responseException = new ResponseException(e, ERROR.UNKNOWN_ERROR, "未知错误");
         }
         return responseException;
     }
@@ -82,7 +75,7 @@ public class ExceptionHandler {
         /**
          * 网络错误
          */
-        public static final int NETWORD_ERROR = 1002;
+        public static final int NET_ERROR = 1002;
         /**
          * 协议出错
          */

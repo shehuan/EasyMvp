@@ -15,9 +15,9 @@ public class ResponseConvert<E> implements Function<BaseResponse<E>, E> {
     @Override
     public E apply(BaseResponse<E> baseResponse) {
         // 响应异常
-        if (!"your api success code".equals(baseResponse.getCode())) {
+        if (!"0".equals(baseResponse.getErrorCode())) {
             // 手动抛出异常
-            throw new ApiException(baseResponse.getCode(), baseResponse.getExceptions());
+            throw new ApiException(baseResponse.getErrorCode(), baseResponse.getErrorMsg());
         }
 
         return baseResponse.getData();

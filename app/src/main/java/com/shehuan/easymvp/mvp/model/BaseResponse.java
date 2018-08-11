@@ -2,24 +2,24 @@ package com.shehuan.easymvp.mvp.model;
 
 public class BaseResponse<T>{
 
-    private String code;
-    private String exceptions;
+    private String errorCode;
+    private String errorMsg;
     private T data;
 
-    public String getCode() {
-        return code;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public String getExceptions() {
-        return exceptions;
+    public String getErrorMsg() {
+        return errorMsg;
     }
 
-    public void setExceptions(String exceptions) {
-        this.exceptions = exceptions;
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 
     public T getData() {
@@ -29,5 +29,4 @@ public class BaseResponse<T>{
     public void setData(T data) {
         this.data = data;
     }
-
 }

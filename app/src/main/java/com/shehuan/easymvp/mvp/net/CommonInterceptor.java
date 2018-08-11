@@ -28,7 +28,6 @@ public class CommonInterceptor implements Interceptor {
         response = chain.proceed(request);
         try {
             ResponseBody responseBody = response.body();
-            response.headers();
             BufferedSource source = responseBody.source();
             source.request(Long.MAX_VALUE);
             Buffer buffer = source.buffer();
