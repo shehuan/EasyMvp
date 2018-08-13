@@ -59,12 +59,15 @@ public class RequestManager {
         return observer.getDisposable();
     }
 
-    public <E1, E2, E3> void zipExecute(Observable<BaseResponse<E1>> observable1, Observable<BaseResponse<E2>> observable2, Observer<E3> observer) {
+    /**
+     * 同时执行两个网络请求，统一处理请求结果
+     */
+    public <E1, E2, E3> void zipExecute(Observable<BaseResponse<E1>> observable1, Observable<BaseResponse<E2>> observable2, final ZipResultListener<E1, E2, E3> listener, Observer<E3> observer) {
         Observable
                 .zip(observable1, observable2, new BiFunction<BaseResponse<E1>, BaseResponse<E2>, E3>() {
                     @Override
                     public E3 apply(BaseResponse<E1> baseResponse1, BaseResponse<E2> baseResponse2) throws Exception {
-                        return null;
+                        return listener.zipResult(baseResponse1, baseResponse2);
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -72,24 +75,24 @@ public class RequestManager {
                 .subscribe(observer);
     }
 
-    public <E1, E2> void linkExecute(Observable<BaseResponse<E1>> observable1, final Observable<BaseResponse<E2>> observable2, Observer<E2> observer) {
+    public <E1, E2> void linkExecute(Observable<BaseResponse<E1>> observable1, final LinkListener<E1, E2> listener, Observer<E2> observer) {
         observable1
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<BaseResponse<E1>>() {
                     @Override
-                    public void accept(BaseResponse<E1> e1baseResponse) throws Exception {
+                    public void accept(BaseResponse<E1> e1BaseResponse) throws Exception {
 
                     }
                 })
+                .observeOn(Schedulers.io())
                 .flatMap(new Function<BaseResponse<E1>, ObservableSource<BaseResponse<E2>>>() {
                     @Override
-                    public ObservableSource<BaseResponse<E2>> apply(BaseResponse<E1> e1baseResponse) throws Exception {
-                        return observable2;
+                    public ObservableSource<BaseResponse<E2>> apply(BaseResponse<E1> baseResponse) throws Exception {
+                        return listener.link(baseResponse);
                     }
                 })
                 .map(new ResponseConvert<E2>())
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
@@ -98,4 +101,11 @@ public class RequestManager {
         E doTask();
     }
 
+    public interface ZipResultListener<E1, E2, E3> {
+        E3 zipResult(BaseResponse<E1> baseResponse1, BaseResponse<E2> baseResponse2);
+    }
+
+    public interface LinkListener<E1, E2> {
+        Observable<BaseResponse<E2>> link(BaseResponse<E1> baseResponse);
+    }
 }

@@ -23,6 +23,8 @@ public class MainActivity extends BaseMvpActivity<SamplePresenterImpl> implement
         mPresenter.getBannerData();
         mPresenter.getFriendData();
         mPresenter.decodeBitmap();
+        mPresenter.getZipData();
+        mPresenter.getLinkData();
     }
 
     @Override
@@ -63,5 +65,15 @@ public class MainActivity extends BaseMvpActivity<SamplePresenterImpl> implement
     @Override
     public void onDecodeBitmapSuccess(Bitmap bitmap) {
         imageView.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void onZipDataSuccess(String data) {
+        Log.e("zip", data);
+    }
+
+    @Override
+    public void onLinkSuccess(List<FriendBean> data) {
+        Log.e("link", "success");
     }
 }

@@ -18,6 +18,10 @@ public interface SampleContract {
         void onFriendError(ResponseException e);
 
         void onDecodeBitmapSuccess(Bitmap bitmap);
+
+        void onZipDataSuccess(String data);
+
+        void onLinkSuccess(List<FriendBean> data);
     }
 
     interface Presenter {
@@ -26,5 +30,9 @@ public interface SampleContract {
         void getFriendData();
 
         void decodeBitmap();
+
+        void getZipData();
+
+        void getLinkData();
     }
 }
