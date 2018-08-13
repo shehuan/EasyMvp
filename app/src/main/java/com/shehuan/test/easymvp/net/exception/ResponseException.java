@@ -1,5 +1,8 @@
-package com.shehuan.test.easymvp.net.exceptions;
+package com.shehuan.test.easymvp.net.exception;
 
+/**
+ * 自定义的响应异常类
+ */
 public class ResponseException extends Exception {
     public String errorCode;
     public String errorMessage;

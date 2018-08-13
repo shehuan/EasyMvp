@@ -83,7 +83,7 @@ public class RetrofitManager {
             }
 
             //请求相应拦截器
-            builder.addInterceptor(new CommonInterceptor());
+//            builder.addInterceptor(new CommonInterceptor());
 
             okHttpClient = builder.build();
         }

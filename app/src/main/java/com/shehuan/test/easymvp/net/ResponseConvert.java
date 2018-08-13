@@ -2,7 +2,7 @@ package com.shehuan.test.easymvp.net;
 
 
 import com.shehuan.test.easymvp.base.BaseResponse;
-import com.shehuan.test.easymvp.net.exceptions.ApiException;
+import com.shehuan.test.easymvp.net.exception.ApiException;
 
 import io.reactivex.functions.Function;
 

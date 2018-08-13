@@ -1,7 +1,7 @@
 package com.shehuan.test.easymvp.net;
 
 
-import com.shehuan.test.easymvp.net.exceptions.ExceptionHandler;
+import com.shehuan.test.easymvp.net.exception.ExceptionHandler;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;

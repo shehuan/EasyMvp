@@ -8,26 +8,28 @@ import com.othershe.nicedialog.NiceDialog;
 import com.shehuan.test.App;
 import com.shehuan.test.R;
 import com.shehuan.test.easymvp.base.activity.BaseActivity;
-import com.shehuan.test.easymvp.net.exceptions.ResponseException;
+import com.shehuan.test.easymvp.net.exception.ResponseException;
+
+import java.lang.ref.WeakReference;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 
-public abstract class CommonObserver<E> implements Observer<E> {
-    private Context mContext;
+public abstract class BaseObserver<E> implements Observer<E> {
+    private WeakReference<Context> wrContext;
     private Disposable disposable;
     private BaseNiceDialog dialog;
 
-    public CommonObserver(Context context, boolean showLoading) {
-        mContext = context;
+    public BaseObserver(Context context, boolean showLoading) {
+        wrContext = new WeakReference<>(context);
         if (showLoading) {
             initLoading();
         }
     }
 
-    public CommonObserver() {
-        mContext = App.getContext();
+    public BaseObserver() {
+        wrContext = new WeakReference<>(App.getContext());
     }
 
     @Override
@@ -46,7 +48,7 @@ public abstract class CommonObserver<E> implements Observer<E> {
     public void onError(Throwable e) {
         hideLoading();
         ResponseException responseException = (ResponseException) e;
-        Toast.makeText(mContext, responseException.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(wrContext.get(), responseException.getErrorMessage(), Toast.LENGTH_SHORT).show();
         onError(responseException);
     }
 
@@ -73,7 +75,7 @@ public abstract class CommonObserver<E> implements Observer<E> {
 
     private void showLoading() {
         if (dialog != null) {
-            dialog.show(((BaseActivity) mContext).getSupportFragmentManager());
+            dialog.show(((BaseActivity) wrContext.get()).getSupportFragmentManager());
         }
     }
 

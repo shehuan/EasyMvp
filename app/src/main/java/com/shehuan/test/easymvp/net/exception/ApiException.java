@@ -1,4 +1,4 @@
-package com.shehuan.test.easymvp.net.exceptions;
+package com.shehuan.test.easymvp.net.exception;
 
 
 /**

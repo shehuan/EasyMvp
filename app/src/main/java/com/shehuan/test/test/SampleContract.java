@@ -1,7 +1,7 @@
 package com.shehuan.test.test;
 
 import com.shehuan.test.easymvp.base.BaseView;
-import com.shehuan.test.easymvp.net.exceptions.ResponseException;
+import com.shehuan.test.easymvp.net.exception.ResponseException;
 
 import java.util.List;
 

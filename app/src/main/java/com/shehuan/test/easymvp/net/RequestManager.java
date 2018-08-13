@@ -25,7 +25,7 @@ public class RequestManager {
         private static final RequestManager INSTANCE = new RequestManager();
     }
 
-    public <E> Disposable execute(Observable<BaseResponse<E>> observable, CommonObserver<E> observer) {
+    public <E> Disposable execute(Observable<BaseResponse<E>> observable, BaseObserver<E> observer) {
         observable
                 .map(new ResponseConvert<E>())
                 .onErrorResumeNext(new ExceptionConvert<E>())

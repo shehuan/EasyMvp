@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.shehuan.test.R;
 import com.shehuan.test.easymvp.base.activity.BaseMvpActivity;
-import com.shehuan.test.easymvp.net.exceptions.ResponseException;
+import com.shehuan.test.easymvp.net.exception.ResponseException;
 
 import java.util.List;
 
