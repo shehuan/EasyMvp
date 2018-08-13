@@ -3,6 +3,8 @@ package com.shehuan.test.easymvp.net;
 import com.shehuan.test.easymvp.base.BaseResponse;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,6 +27,9 @@ public class RequestManager {
         private static final RequestManager INSTANCE = new RequestManager();
     }
 
+    /**
+     * 通用网络请求方法
+     */
     public <E> Disposable execute(Observable<BaseResponse<E>> observable, BaseObserver<E> observer) {
         observable
                 .map(new ResponseConvert<E>())
@@ -33,6 +38,24 @@ public class RequestManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
 
+        return observer.getDisposable();
+    }
+
+    /**
+     * 通用耗时任务执行方法
+     */
+    public <E> Disposable execute(final TaskListener<E> listener, BaseObserver<E> observer) {
+        Observable.create(new ObservableOnSubscribe<E>() {
+            @Override
+            public void subscribe(ObservableEmitter<E> emitter) throws Exception {
+                if (listener != null) {
+                    emitter.onNext(listener.doTask());
+                }
+                emitter.onComplete();
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
         return observer.getDisposable();
     }
 
@@ -69,6 +92,10 @@ public class RequestManager {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
+    }
+
+    public interface TaskListener<E> {
+        E doTask();
     }
 
 }
