@@ -3,7 +3,6 @@ package com.shehuan.test.test;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import com.shehuan.test.R;
 import com.shehuan.test.easymvp.base.BasePresenter;
@@ -27,15 +26,15 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
     @Override
     public void getBannerData() {
         Disposable disposable = RequestManager.getInstance()
-                .execute(RetrofitManager.getInstance().create(CommonApis.class).banner(), new BaseObserver<List<BannerBean>>(mContext, true) {
+                .execute(RetrofitManager.getInstance().create(CommonApis.class).banner(), new BaseObserver<List<BannerBean>>(context, true) {
                     @Override
                     protected void onSuccess(List<BannerBean> data) {
-                        mView.onBannerSuccess(data);
+                        view.onBannerSuccess(data);
                     }
 
                     @Override
                     protected void onError(ResponseException e) {
-                        mView.onBannerError(e);
+                        view.onBannerError(e);
                     }
                 });
         addDisposable(disposable);
@@ -44,15 +43,15 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
     @Override
     public void getFriendData() {
         Disposable disposable = RequestManager.getInstance()
-                .execute(RetrofitManager.getInstance().create(CommonApis.class).friend(), new BaseObserver<List<FriendBean>>(mContext, true) {
+                .execute(RetrofitManager.getInstance().create(CommonApis.class).friend(), new BaseObserver<List<FriendBean>>(context, true) {
                     @Override
                     protected void onSuccess(List<FriendBean> data) {
-                        mView.onFriendSuccess(data);
+                        view.onFriendSuccess(data);
                     }
 
                     @Override
                     protected void onError(ResponseException e) {
-                        mView.onFriendError(e);
+                        view.onFriendError(e);
                     }
                 });
         addDisposable(disposable);
@@ -68,12 +67,12 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
+                return BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
             }
         }, new BaseObserver<Bitmap>() {
             @Override
             protected void onSuccess(Bitmap data) {
-                mView.onDecodeBitmapSuccess(data);
+                view.onDecodeBitmapSuccess(data);
             }
 
             @Override
@@ -96,7 +95,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                 }, new BaseObserver<String>() {
                     @Override
                     protected void onSuccess(String data) {
-                        mView.onZipDataSuccess(data);
+                        view.onZipDataSuccess(data);
                     }
 
                     @Override
@@ -117,7 +116,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                 }, new BaseObserver<List<FriendBean>>() {
                     @Override
                     protected void onSuccess(List<FriendBean> data) {
-                        mView.onLinkSuccess(data);
+                        view.onLinkSuccess(data);
                     }
 
                     @Override

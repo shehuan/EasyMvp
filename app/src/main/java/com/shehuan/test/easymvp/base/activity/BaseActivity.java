@@ -10,11 +10,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected Context mContext;
-    protected Unbinder mUnbinder;
+    protected Context context;
+    protected Unbinder unbinder;
 
     protected abstract @LayoutRes
-    int initLayoutId();
+    int initLayoutResID();
 
     protected abstract void initData();
 
@@ -23,9 +23,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(initLayoutId());
-        mContext = this;
-        mUnbinder = ButterKnife.bind(this);
+        setContentView(initLayoutResID());
+        context = this;
+        unbinder = ButterKnife.bind(this);
 
         initData();
         initView();
@@ -33,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        mUnbinder.unbind();
+        unbinder.unbind();
         super.onDestroy();
     }
 }

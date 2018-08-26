@@ -7,24 +7,28 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 public abstract class BasePresenter<V extends BaseView> {
-    protected V mView;
-    protected Context mContext;
-    private CompositeDisposable mCompositeDisposable;
+    protected V view;
+    protected Context context;
+    private CompositeDisposable compositeDisposable;
 
     public BasePresenter(Context context, V view) {
-        mView = view;
-        mContext = context;
-        mCompositeDisposable = new CompositeDisposable();
+        this.context = context;
+        this.view = view;
+        compositeDisposable = new CompositeDisposable();
     }
 
     protected void addDisposable(Disposable disposable) {
-        mCompositeDisposable.add(disposable);
+        compositeDisposable.add(disposable);
     }
 
-    public void detach() {
-        mView = null;
-        if (!mCompositeDisposable.isDisposed()) {
-            mCompositeDisposable.clear();
+    public void removeDisposable(Disposable disposable) {
+        compositeDisposable.remove(disposable);
+    }
+
+    public void clearDisposable() {
+        view = null;
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.clear();
         }
     }
 }

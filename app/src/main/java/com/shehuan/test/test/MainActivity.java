@@ -18,17 +18,21 @@ public class MainActivity extends BaseMvpActivity<SamplePresenterImpl> implement
     ImageView imageView;
 
     @Override
-    protected void fetchData() {
-        mPresenter = new SamplePresenterImpl(mContext, this);
-        mPresenter.getBannerData();
-        mPresenter.getFriendData();
-        mPresenter.decodeBitmap();
-        mPresenter.getZipData();
-        mPresenter.getLinkData();
+    protected SamplePresenterImpl initPresenter() {
+        return new SamplePresenterImpl(context, this);
     }
 
     @Override
-    protected int initLayoutId() {
+    protected void loadData() {
+        presenter.getBannerData();
+        presenter.getFriendData();
+        presenter.decodeBitmap();
+        presenter.getZipData();
+        presenter.getLinkData();
+    }
+
+    @Override
+    protected int initLayoutResID() {
         return R.layout.activity_main;
     }
 

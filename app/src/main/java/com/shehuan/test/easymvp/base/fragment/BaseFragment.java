@@ -16,12 +16,12 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
-    protected BaseActivity mContext;
-    protected Unbinder mUnbinder;
-    protected View mRootView;
+    protected BaseActivity context;
+    protected Unbinder unbinder;
+    protected View rootView;
 
     protected abstract @LayoutRes
-    int initLayoutRes();
+    int initLayoutResID();
 
     protected abstract void initData();
 
@@ -30,7 +30,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = (BaseActivity) context;
+        this.context = (BaseActivity) context;
     }
 
     @Override
@@ -42,15 +42,15 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(initLayoutRes(), container, false);
-        mUnbinder = ButterKnife.bind(this, mRootView);
+        rootView = inflater.inflate(initLayoutResID(), container, false);
+        unbinder = ButterKnife.bind(this, rootView);
         initView();
-        return mRootView;
+        return rootView;
     }
 
     @Override
     public void onDestroy() {
-        mUnbinder.unbind();
+        unbinder.unbind();
         super.onDestroy();
     }
 }

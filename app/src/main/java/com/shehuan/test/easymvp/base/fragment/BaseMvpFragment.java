@@ -11,14 +11,28 @@ import com.shehuan.test.easymvp.base.BasePresenter;
 import java.util.List;
 
 public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragment {
-    protected P mPresenter;
+    protected P presenter;
 
     private boolean isViewCreated; // 界面是否已创建完成
     private boolean isVisibleToUser; // 是否对用户可见
     private boolean isDataLoaded; // 数据是否已请求, isNeedReload()返回false的时起作用
     private boolean isHidden = true; // 记录当前fragment的是否隐藏
 
-    // 实现具体的数据请求逻辑
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        isViewCreated = true;
+
+        presenter = initPresenter();
+
+        tryLoadData();
+    }
+
+    // 初始化Presenter
+    protected abstract P initPresenter();
+
+    // 默认数据请求
     protected abstract void loadData();
 
     /**
@@ -31,16 +45,6 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
         super.setUserVisibleHint(isVisibleToUser);
 
         this.isVisibleToUser = isVisibleToUser;
-
-        tryLoadData();
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        isViewCreated = true;
 
         tryLoadData();
     }
@@ -154,8 +158,8 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
         isDataLoaded = false;
         isHidden = true;
 
-        if (mPresenter != null) {
-            mPresenter.detach();
+        if (presenter != null) {
+            presenter.clearDisposable();
         }
         super.onDestroy();
     }
