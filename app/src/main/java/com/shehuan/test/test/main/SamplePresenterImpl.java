@@ -11,7 +11,7 @@ import com.shehuan.test.easymvp.net.BaseObserver;
 import com.shehuan.test.easymvp.net.RequestManager;
 import com.shehuan.test.easymvp.net.RetrofitManager;
 import com.shehuan.test.easymvp.net.exception.ResponseException;
-import com.shehuan.test.test.CommonApis;
+import com.shehuan.test.test.apis.WanAndroidApis;
 import com.shehuan.test.test.model.BannerBean;
 import com.shehuan.test.test.model.FriendBean;
 
@@ -27,7 +27,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
 
     @Override
     public void getBannerData() {
-        RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(CommonApis.class).banner(),
+        RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(WanAndroidApis.class).banner(),
                 new BaseObserver<List<BannerBean>>(context, true, true) {
                     @Override
                     protected void onSuccess(List<BannerBean> data) {
@@ -43,7 +43,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
 
     @Override
     public void getFriendData() {
-        RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(CommonApis.class).friend(),
+        RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(WanAndroidApis.class).friend(),
                 new BaseObserver<List<FriendBean>>(true) {
                     @Override
                     protected void onSuccess(List<FriendBean> data) {
@@ -84,8 +84,8 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
 
     @Override
     public void getZipExecuteData() {
-        RequestManager.getInstance().zipExecute(this, RetrofitManager.getInstance().create(CommonApis.class).banner(),
-                RetrofitManager.getInstance().create(CommonApis.class).friend(),
+        RequestManager.getInstance().zipExecute(this, RetrofitManager.getInstance().create(WanAndroidApis.class).banner(),
+                RetrofitManager.getInstance().create(WanAndroidApis.class).friend(),
                 new RequestManager.ZipExecuteListener<List<BannerBean>, List<FriendBean>, String>() {
                     @Override
                     public String onExecuteResult(BaseResponse<List<BannerBean>> baseResponse1, BaseResponse<List<FriendBean>> baseResponse2) {
@@ -108,11 +108,11 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
 
     @Override
     public void getOrderExecuteData() {
-        RequestManager.getInstance().orderExecute(this, RetrofitManager.getInstance().create(CommonApis.class).banner(),
+        RequestManager.getInstance().orderExecute(this, RetrofitManager.getInstance().create(WanAndroidApis.class).banner(),
                 new RequestManager.OrderExecuteListener<List<BannerBean>, List<FriendBean>>() {
                     @Override
                     public Observable<BaseResponse<List<FriendBean>>> onExecuteResult(BaseResponse<List<BannerBean>> baseResponse) {
-                        return RetrofitManager.getInstance().create(CommonApis.class).friend();
+                        return RetrofitManager.getInstance().create(WanAndroidApis.class).friend();
                     }
                 }, new BaseObserver<List<FriendBean>>(true) {
                     @Override
