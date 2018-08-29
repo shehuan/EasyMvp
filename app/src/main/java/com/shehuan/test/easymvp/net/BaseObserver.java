@@ -21,14 +21,23 @@ public abstract class BaseObserver<E> implements Observer<E> {
     private Disposable disposable;
     private BaseNiceDialog dialog;
 
-    public BaseObserver(Context context, boolean showLoading) {
+    private boolean showErrorTip;
+
+    /**
+     * @param context      由于loading通过DialogFragment实现，无法使用Application Context，需要使用Activity Context
+     * @param showLoading  是否显示加载中loading
+     * @param showErrorTip 发生异常时，是否使用Toast提示
+     */
+    public BaseObserver(Context context, boolean showLoading, boolean showErrorTip) {
         wrContext = new WeakReference<>(context);
+        this.showErrorTip = showErrorTip;
         if (showLoading) {
             initLoading();
         }
     }
 
-    public BaseObserver() {
+    public BaseObserver(boolean showErrorTip) {
+        this.showErrorTip = showErrorTip;
         wrContext = new WeakReference<>(App.getContext());
     }
 
@@ -48,7 +57,9 @@ public abstract class BaseObserver<E> implements Observer<E> {
     public void onError(Throwable e) {
         hideLoading();
         ResponseException responseException = (ResponseException) e;
-        Toast.makeText(wrContext.get(), responseException.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        if (showErrorTip) {
+            Toast.makeText(wrContext.get(), responseException.getErrorMessage(), Toast.LENGTH_SHORT).show();
+        }
         onError(responseException);
     }
 
@@ -65,6 +76,9 @@ public abstract class BaseObserver<E> implements Observer<E> {
 
     protected abstract void onError(ResponseException e);
 
+    /**
+     * 初始化loading
+     */
     private void initLoading() {
         dialog = NiceDialog.init()
                 .setLayoutId(R.layout.loading_layout)
@@ -73,12 +87,18 @@ public abstract class BaseObserver<E> implements Observer<E> {
                 .setDimAmount(0);
     }
 
+    /**
+     * 显示loading
+     */
     private void showLoading() {
         if (dialog != null) {
             dialog.show(((BaseActivity) wrContext.get()).getSupportFragmentManager());
         }
     }
 
+    /**
+     * 取消loading
+     */
     private void hideLoading() {
         if (dialog != null) {
             dialog.dismiss();

@@ -1,4 +1,4 @@
-package com.shehuan.test.test;
+package com.shehuan.test.test.model;
 
 /**
  * Author: shehuan

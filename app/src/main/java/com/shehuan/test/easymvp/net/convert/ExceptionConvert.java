@@ -1,4 +1,4 @@
-package com.shehuan.test.easymvp.net;
+package com.shehuan.test.easymvp.net.convert;
 
 
 import com.shehuan.test.easymvp.net.exception.ExceptionHandler;
@@ -10,8 +10,6 @@ import io.reactivex.functions.Function;
 
 /**
  * 用发送异常数据的Observable来接管原始Observable
- *
- * @param <E>
  */
 public class ExceptionConvert<E> implements Function<Throwable, ObservableSource<? extends E>> {
     @Override

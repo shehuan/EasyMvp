@@ -1,4 +1,4 @@
-package com.shehuan.test.test;
+package com.shehuan.test.test.main;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,11 +11,13 @@ import com.shehuan.test.easymvp.net.BaseObserver;
 import com.shehuan.test.easymvp.net.RequestManager;
 import com.shehuan.test.easymvp.net.RetrofitManager;
 import com.shehuan.test.easymvp.net.exception.ResponseException;
+import com.shehuan.test.test.CommonApis;
+import com.shehuan.test.test.model.BannerBean;
+import com.shehuan.test.test.model.FriendBean;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 
 public class SamplePresenterImpl extends BasePresenter<SampleContract.View> implements SampleContract.Presenter {
@@ -25,8 +27,8 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
 
     @Override
     public void getBannerData() {
-        Disposable disposable = RequestManager.getInstance()
-                .execute(RetrofitManager.getInstance().create(CommonApis.class).banner(), new BaseObserver<List<BannerBean>>(context, true) {
+        RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(CommonApis.class).banner(),
+                new BaseObserver<List<BannerBean>>(context, true, true) {
                     @Override
                     protected void onSuccess(List<BannerBean> data) {
                         view.onBannerSuccess(data);
@@ -37,13 +39,12 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                         view.onBannerError(e);
                     }
                 });
-        addDisposable(disposable);
     }
 
     @Override
     public void getFriendData() {
-        Disposable disposable = RequestManager.getInstance()
-                .execute(RetrofitManager.getInstance().create(CommonApis.class).friend(), new BaseObserver<List<FriendBean>>(context, true) {
+        RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(CommonApis.class).friend(),
+                new BaseObserver<List<FriendBean>>(context, true, true) {
                     @Override
                     protected void onSuccess(List<FriendBean> data) {
                         view.onFriendSuccess(data);
@@ -54,14 +55,13 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                         view.onFriendError(e);
                     }
                 });
-        addDisposable(disposable);
     }
 
     @Override
     public void decodeBitmap() {
-        Disposable disposable = RequestManager.getInstance().execute(new RequestManager.TaskListener<Bitmap>() {
+        RequestManager.getInstance().commonExecute(this, new RequestManager.ExecuteListener<Bitmap>() {
             @Override
-            public Bitmap doTask() {
+            public Bitmap onExecute() {
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -69,7 +69,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                 }
                 return BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
             }
-        }, new BaseObserver<Bitmap>() {
+        }, new BaseObserver<Bitmap>(true) {
             @Override
             protected void onSuccess(Bitmap data) {
                 view.onDecodeBitmapSuccess(data);
@@ -80,22 +80,23 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
 
             }
         });
-        addDisposable(disposable);
     }
 
     @Override
-    public void getZipData() {
-        RequestManager.getInstance().zipExecute(RetrofitManager.getInstance().create(CommonApis.class).banner(),
-                RetrofitManager.getInstance().create(CommonApis.class).friend(), new RequestManager.ZipResultListener<List<BannerBean>, List<FriendBean>, String>() {
+    public void getZipExecuteData() {
+        RequestManager.getInstance().zipExecute(this, RetrofitManager.getInstance().create(CommonApis.class).banner(),
+                RetrofitManager.getInstance().create(CommonApis.class).friend(),
+                new RequestManager.ZipExecuteListener<List<BannerBean>, List<FriendBean>, String>() {
                     @Override
-                    public String zipResult(BaseResponse<List<BannerBean>> baseResponse1, BaseResponse<List<FriendBean>> baseResponse2) {
+                    public String onExecuteResult(BaseResponse<List<BannerBean>> baseResponse1, BaseResponse<List<FriendBean>> baseResponse2) {
 
                         return baseResponse1.getData().size() + "#" + baseResponse2.getData().size();
                     }
-                }, new BaseObserver<String>() {
+                },
+                new BaseObserver<String>(true) {
                     @Override
                     protected void onSuccess(String data) {
-                        view.onZipDataSuccess(data);
+                        view.onZipExecuteSuccess(data);
                     }
 
                     @Override
@@ -106,17 +107,17 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
     }
 
     @Override
-    public void getLinkData() {
-        RequestManager.getInstance().linkExecute(RetrofitManager.getInstance().create(CommonApis.class).banner(),
-                new RequestManager.LinkListener<List<BannerBean>, List<FriendBean>>() {
+    public void getOrderExecuteData() {
+        RequestManager.getInstance().orderExecute(this, RetrofitManager.getInstance().create(CommonApis.class).banner(),
+                new RequestManager.OrderExecuteListener<List<BannerBean>, List<FriendBean>>() {
                     @Override
-                    public Observable<BaseResponse<List<FriendBean>>> link(BaseResponse<List<BannerBean>> baseResponse) {
+                    public Observable<BaseResponse<List<FriendBean>>> onExecuteResult(BaseResponse<List<BannerBean>> baseResponse) {
                         return RetrofitManager.getInstance().create(CommonApis.class).friend();
                     }
-                }, new BaseObserver<List<FriendBean>>() {
+                }, new BaseObserver<List<FriendBean>>(true) {
                     @Override
                     protected void onSuccess(List<FriendBean> data) {
-                        view.onLinkSuccess(data);
+                        view.onOrderExecuteSuccess(data);
                     }
 
                     @Override

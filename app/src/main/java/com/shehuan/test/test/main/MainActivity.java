@@ -1,4 +1,4 @@
-package com.shehuan.test.test;
+package com.shehuan.test.test.main;
 
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import com.shehuan.test.R;
 import com.shehuan.test.easymvp.base.activity.BaseMvpActivity;
 import com.shehuan.test.easymvp.net.exception.ResponseException;
+import com.shehuan.test.test.model.BannerBean;
+import com.shehuan.test.test.model.FriendBean;
 
 import java.util.List;
 
@@ -27,8 +29,8 @@ public class MainActivity extends BaseMvpActivity<SamplePresenterImpl> implement
         presenter.getBannerData();
         presenter.getFriendData();
         presenter.decodeBitmap();
-        presenter.getZipData();
-        presenter.getLinkData();
+        presenter.getZipExecuteData();
+        presenter.getOrderExecuteData();
     }
 
     @Override
@@ -72,12 +74,12 @@ public class MainActivity extends BaseMvpActivity<SamplePresenterImpl> implement
     }
 
     @Override
-    public void onZipDataSuccess(String data) {
-        Log.e("zip", data);
+    public void onZipExecuteSuccess(String data) {
+        Log.e("ZipExecute", "success");
     }
 
     @Override
-    public void onLinkSuccess(List<FriendBean> data) {
-        Log.e("link", "success");
+    public void onOrderExecuteSuccess(List<FriendBean> data) {
+        Log.e("OrderExecute", "success");
     }
 }

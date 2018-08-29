@@ -14,6 +14,7 @@ import retrofit2.HttpException;
 import static com.shehuan.test.easymvp.net.exception.Code.BAD_GATEWAY;
 import static com.shehuan.test.easymvp.net.exception.Code.FORBIDDEN;
 import static com.shehuan.test.easymvp.net.exception.Code.GATEWAY_TIMEOUT;
+import static com.shehuan.test.easymvp.net.exception.Code.HTTP_ERROR;
 import static com.shehuan.test.easymvp.net.exception.Code.INTERNAL_SERVER_ERROR;
 import static com.shehuan.test.easymvp.net.exception.Code.NET_ERROR;
 import static com.shehuan.test.easymvp.net.exception.Code.NOT_FOUND;
@@ -45,7 +46,7 @@ public class ExceptionHandler {
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
                 default:
-                    responseException = new ResponseException(e, httpException.code(), "网络连接错误");
+                    responseException = new ResponseException(e, HTTP_ERROR + ":" + httpException.code(), "网络连接错误");
                     break;
             }
         } else if (e instanceof JsonParseException

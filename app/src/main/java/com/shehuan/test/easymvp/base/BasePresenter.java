@@ -17,18 +17,31 @@ public abstract class BasePresenter<V extends BaseView> {
         compositeDisposable = new CompositeDisposable();
     }
 
-    protected void addDisposable(Disposable disposable) {
-        compositeDisposable.add(disposable);
+    /**
+     * 保存RxJava绑定关系
+     */
+    public void addDisposable(Disposable disposable) {
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.add(disposable);
+        }
     }
 
+    /**
+     * 取消单个RxJava绑定
+     */
     public void removeDisposable(Disposable disposable) {
-        compositeDisposable.remove(disposable);
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.remove(disposable);
+        }
     }
 
-    public void clearDisposable() {
-        view = null;
+    /**
+     * 取消当前Presenter的全部RxJava绑定，置空view
+     */
+    public void detach() {
         if (!compositeDisposable.isDisposed()) {
             compositeDisposable.clear();
         }
+        view = null;
     }
 }

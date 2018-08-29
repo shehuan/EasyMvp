@@ -13,6 +13,12 @@ public class ResponseException extends Exception {
         this.errorMessage = errorMessage;
     }
 
+    public ResponseException(Throwable throwable, String errorCode, String errorMessage) {
+        super(throwable);
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
+
     public String getErrorCode() {
         return errorCode;
     }

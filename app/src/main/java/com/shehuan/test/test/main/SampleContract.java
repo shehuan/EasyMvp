@@ -1,9 +1,11 @@
-package com.shehuan.test.test;
+package com.shehuan.test.test.main;
 
 import android.graphics.Bitmap;
 
 import com.shehuan.test.easymvp.base.BaseView;
 import com.shehuan.test.easymvp.net.exception.ResponseException;
+import com.shehuan.test.test.model.BannerBean;
+import com.shehuan.test.test.model.FriendBean;
 
 import java.util.List;
 
@@ -19,9 +21,9 @@ public interface SampleContract {
 
         void onDecodeBitmapSuccess(Bitmap bitmap);
 
-        void onZipDataSuccess(String data);
+        void onZipExecuteSuccess(String data);
 
-        void onLinkSuccess(List<FriendBean> data);
+        void onOrderExecuteSuccess(List<FriendBean> data);
     }
 
     interface Presenter {
@@ -31,8 +33,8 @@ public interface SampleContract {
 
         void decodeBitmap();
 
-        void getZipData();
+        void getZipExecuteData();
 
-        void getLinkData();
+        void getOrderExecuteData();
     }
 }

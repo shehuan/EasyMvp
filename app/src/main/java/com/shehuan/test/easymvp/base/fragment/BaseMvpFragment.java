@@ -159,7 +159,7 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
         isHidden = true;
 
         if (presenter != null) {
-            presenter.clearDisposable();
+            presenter.detach();
         }
         super.onDestroy();
     }
