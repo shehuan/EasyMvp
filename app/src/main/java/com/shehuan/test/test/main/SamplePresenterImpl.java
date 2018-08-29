@@ -44,7 +44,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
     @Override
     public void getFriendData() {
         RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(CommonApis.class).friend(),
-                new BaseObserver<List<FriendBean>>(context, true, true) {
+                new BaseObserver<List<FriendBean>>(true) {
                     @Override
                     protected void onSuccess(List<FriendBean> data) {
                         view.onFriendSuccess(data);
@@ -67,9 +67,9 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                return BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+                return BitmapFactory.decodeResource(context.getResources(), R.mipmap.cat);
             }
-        }, new BaseObserver<Bitmap>(true) {
+        }, new BaseObserver<Bitmap>(context, true, true) {
             @Override
             protected void onSuccess(Bitmap data) {
                 view.onDecodeBitmapSuccess(data);

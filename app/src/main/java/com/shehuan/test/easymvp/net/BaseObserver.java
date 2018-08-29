@@ -102,6 +102,7 @@ public abstract class BaseObserver<E> implements Observer<E> {
     private void hideLoading() {
         if (dialog != null) {
             dialog.dismiss();
+            dialog = null;
         }
     }
 }

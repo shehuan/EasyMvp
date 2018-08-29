@@ -71,6 +71,7 @@ public class MainActivity extends BaseMvpActivity<SamplePresenterImpl> implement
     @Override
     public void onDecodeBitmapSuccess(Bitmap bitmap) {
         imageView.setImageBitmap(bitmap);
+        Log.e("DecodeBitmap", "success");
     }
 
     @Override
