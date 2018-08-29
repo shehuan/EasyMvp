@@ -12,7 +12,6 @@ import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -60,7 +59,8 @@ public class RequestManager {
                 }
                 emitter.onComplete();
             }
-        }).subscribeOn(Schedulers.io())
+        }).onErrorResumeNext(new ExceptionConvert<E>())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
         presenter.addDisposable(observer.getDisposable());
@@ -78,6 +78,7 @@ public class RequestManager {
                         return listener.onExecuteResult(baseResponse1, baseResponse2);
                     }
                 })
+                .onErrorResumeNext(new ExceptionConvert<E3>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
@@ -92,12 +93,6 @@ public class RequestManager {
         observable1
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<BaseResponse<E1>>() {
-                    @Override
-                    public void accept(BaseResponse<E1> e1BaseResponse) throws Exception {
-
-                    }
-                })
                 .observeOn(Schedulers.io())
                 .flatMap(new Function<BaseResponse<E1>, ObservableSource<BaseResponse<E2>>>() {
                     @Override
@@ -106,6 +101,7 @@ public class RequestManager {
                     }
                 })
                 .map(new ResponseConvert<E2>())
+                .onErrorResumeNext(new ExceptionConvert<E2>())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
         presenter.addDisposable(observer.getDisposable());
