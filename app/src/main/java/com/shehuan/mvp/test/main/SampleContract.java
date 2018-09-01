@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 
 import com.shehuan.mvp.easymvp.base.BaseView;
 import com.shehuan.mvp.easymvp.net.exception.ResponseException;
-import com.shehuan.mvp.test.model.BannerBean;
-import com.shehuan.mvp.test.model.FriendBean;
+import com.shehuan.mvp.test.bean.BannerBean;
+import com.shehuan.mvp.test.bean.FriendBean;
 
 import java.util.List;
 

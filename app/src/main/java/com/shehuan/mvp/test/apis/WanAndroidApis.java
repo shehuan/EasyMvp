@@ -2,8 +2,8 @@ package com.shehuan.mvp.test.apis;
 
 import com.shehuan.mvp.easymvp.base.BaseResponse;
 import com.shehuan.mvp.test.Url;
-import com.shehuan.mvp.test.model.BannerBean;
-import com.shehuan.mvp.test.model.FriendBean;
+import com.shehuan.mvp.test.bean.BannerBean;
+import com.shehuan.mvp.test.bean.FriendBean;
 
 import java.util.List;
 
