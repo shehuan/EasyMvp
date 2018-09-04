@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.shehuan.mvp.easymvp.base.BasePresenter;
-import com.shehuan.mvp.easymvp.base.BaseView;
 
-public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActivity implements BaseView {
+public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActivity {
     protected P presenter;
 
     // 初始化Presenter
