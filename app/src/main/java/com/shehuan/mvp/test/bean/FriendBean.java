@@ -1,4 +1,4 @@
-package com.shehuan.mvp.test.model;
+package com.shehuan.mvp.test.bean;
 
 public class FriendBean {
 

@@ -12,8 +12,8 @@ import com.shehuan.mvp.easymvp.net.RequestManager;
 import com.shehuan.mvp.easymvp.net.RetrofitManager;
 import com.shehuan.mvp.easymvp.net.exception.ResponseException;
 import com.shehuan.mvp.test.apis.WanAndroidApis;
-import com.shehuan.mvp.test.model.BannerBean;
-import com.shehuan.mvp.test.model.FriendBean;
+import com.shehuan.mvp.test.bean.BannerBean;
+import com.shehuan.mvp.test.bean.FriendBean;
 
 import java.util.List;
 
