@@ -33,7 +33,6 @@ public class ExceptionHandler {
         if (e instanceof ApiException) {
             ApiException apiException = (ApiException) e;
             responseException = new ResponseException(apiException, Integer.valueOf(apiException.getErrorCode()), apiException.getMessage());
-            responseException.getMessage();
         } else if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             switch (httpException.code()) {
