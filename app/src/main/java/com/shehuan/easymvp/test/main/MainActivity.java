@@ -21,7 +21,7 @@ public class MainActivity extends BaseMvpActivity<SamplePresenterImpl> implement
 
     @Override
     protected SamplePresenterImpl initPresenter() {
-        return new SamplePresenterImpl(context, this);
+        return new SamplePresenterImpl(this);
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.shehuan.easymvp.base;
 
 import android.content.Context;
 
+import com.shehuan.easymvp.base.fragment.BaseFragment;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -11,8 +13,12 @@ public abstract class BasePresenter<V extends BaseView> {
     protected Context context;
     private CompositeDisposable compositeDisposable;
 
-    public BasePresenter(Context context, V view) {
-        this.context = context;
+    public BasePresenter(V view) {
+        if (view instanceof BaseFragment) {
+            this.context = ((BaseFragment) view).context;
+        } else {
+            this.context = (Context) view;
+        }
         this.view = view;
         compositeDisposable = new CompositeDisposable();
     }

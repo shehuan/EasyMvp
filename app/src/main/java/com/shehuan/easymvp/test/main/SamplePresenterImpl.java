@@ -1,6 +1,5 @@
 package com.shehuan.easymvp.test.main;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -21,8 +20,8 @@ import io.reactivex.Observable;
 
 
 public class SamplePresenterImpl extends BasePresenter<SampleContract.View> implements SampleContract.Presenter {
-    public SamplePresenterImpl(Context context, SampleContract.View view) {
-        super(context, view);
+    public SamplePresenterImpl(SampleContract.View view) {
+        super(view);
     }
 
     @Override

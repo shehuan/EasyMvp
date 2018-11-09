@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
-    protected BaseActivity context;
+    public BaseActivity context;
     protected Unbinder unbinder;
     protected View rootView;
 
