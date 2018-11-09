@@ -7,6 +7,7 @@ import com.shehuan.easymvp.R;
 import com.shehuan.easymvp.base.BasePresenter;
 import com.shehuan.easymvp.base.BaseResponse;
 import com.shehuan.easymvp.base.net.BaseObserver;
+import com.shehuan.easymvp.base.net.LoadingObserver;
 import com.shehuan.easymvp.base.net.RequestManager;
 import com.shehuan.easymvp.base.net.RetrofitManager;
 import com.shehuan.easymvp.base.net.exception.ResponseException;
@@ -27,7 +28,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
     @Override
     public void getBannerData() {
         RequestManager.getInstance().execute(this, RetrofitManager.getInstance().create(WanAndroidApis.class).banner(),
-                new BaseObserver<List<BannerBean>>(context, true, true) {
+                new LoadingObserver<List<BannerBean>>(context, true, true) {
                     @Override
                     protected void onSuccess(List<BannerBean> data) {
                         view.onBannerSuccess(data);
@@ -68,7 +69,7 @@ public class SamplePresenterImpl extends BasePresenter<SampleContract.View> impl
                 }
                 return BitmapFactory.decodeResource(context.getResources(), R.mipmap.cat);
             }
-        }, new BaseObserver<Bitmap>(context, true, true) {
+        }, new LoadingObserver<Bitmap>(context, true, true) {
             @Override
             protected void onSuccess(Bitmap data) {
                 view.onDecodeBitmapSuccess(data);
