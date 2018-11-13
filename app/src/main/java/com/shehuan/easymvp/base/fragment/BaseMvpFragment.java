@@ -12,9 +12,9 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
     protected abstract P initPresenter();
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         presenter = initPresenter();
-        super.onActivityCreated(savedInstanceState);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

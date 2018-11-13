@@ -11,14 +11,20 @@ import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Context context;
-    protected Unbinder unbinder;
+    private Unbinder unbinder;
 
+    // 初始化布局文件id
     protected abstract @LayoutRes
     int initLayoutResID();
 
+    // 初始化数据
     protected abstract void initData();
 
+    // 初始化控件
     protected abstract void initView();
+
+    // 页面初始化数据请求、内容加载
+    protected abstract void loadData();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         initData();
         initView();
+        loadData();
     }
 
     @Override

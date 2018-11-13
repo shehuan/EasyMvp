@@ -20,20 +20,25 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
     public BaseActivity context;
-    protected Unbinder unbinder;
-    protected View rootView;
+    private Unbinder unbinder;
 
     private boolean isViewCreated; // 界面是否已创建完成
     protected boolean isVisibleToUser; // 是否对用户可见
     private boolean isDataLoaded; // 数据是否已请求, isNeedReload()返回false的时起作用
     protected boolean isHidden = true; // 记录当前fragment的是否隐藏
 
+    // 初始化布局文件id
     protected abstract @LayoutRes
     int initLayoutResID();
 
+    // 初始化数据
     protected abstract void initData();
 
+    // 初始化控件
     protected abstract void initView();
+
+    // 页面初始化数据请求、内容加载
+    protected abstract void loadData();
 
     @Override
     public void onAttach(Context context) {
@@ -57,14 +62,11 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(initLayoutResID(), container, false);
-        unbinder = ButterKnife.bind(this, rootView);
+        View view = inflater.inflate(initLayoutResID(), container, false);
+        unbinder = ButterKnife.bind(this, view);
         initView();
-        return rootView;
+        return view;
     }
-
-    // 默认数据请求
-    protected abstract void loadData();
 
     /**
      * 使用ViewPager嵌套fragment时，切换ViewPager回调该方法

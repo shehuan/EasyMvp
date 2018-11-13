@@ -11,14 +11,10 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
     // 初始化Presenter
     protected abstract P initPresenter();
 
-    // 默认数据请求
-    protected abstract void loadData();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         presenter = initPresenter();
-        loadData();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
